@@ -1,0 +1,45 @@
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx/Dockerfile
+    volumes:
+      - ./docker/nginx/nginx_proxy.conf:/etc/nginx/conf.d/nginx_proxy.conf:ro
+      - ./:/var/www/app
+    depends_on:
+      - php-fpm
+    networks:
+      - default
+
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/app
+    command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
+    networks:
+      - default
+
+  db:
+    build:
+      context: docker/database
+    environment:
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      LANG: C.UTF-8
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  redis:
+    image: redis:alpine
+    networks:
+      - default
+
+volumes:
+  db_data:
+    name: ${VOLUME_DB_LIB}
+    external: true

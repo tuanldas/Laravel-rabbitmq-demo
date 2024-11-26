@@ -1,0 +1,19 @@
+services:
+  nginx:
+    restart: always
+    networks:
+      - publish
+
+  php-fpm:
+    restart: always
+
+  db:
+    restart: always
+
+  redis:
+    restart: always
+
+networks:
+  publish:
+    external: true
+    name: ${PUBLISH_NETWORK}

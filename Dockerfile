@@ -32,7 +32,8 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && echo "$TZ" > /etc/timezo
     && apt-get install cron -y \
     && apt-get clean \
 
-RUN docker-php-ext-install mbstring exif bcmath sockets
+RUN docker-php-ext-install mbstring exif \
+ && docker-php-ext-install bcmath sockets
 
 RUN docker-php-ext-configure pcntl --enable-pcntl \
   && docker-php-ext-install \

@@ -24,7 +24,7 @@ class RabbitMQService implements MessageQueueServiceInterface
 
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
-        $channel->basic_consume($queue, '', false, true, false, false, $callback);
+        $channel->basic_consume($queue, '', false, false, false, false, $callback);
 
         while ($channel->is_consuming()) {
             $channel->wait();

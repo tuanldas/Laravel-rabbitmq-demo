@@ -43,7 +43,7 @@ class RabbitMQConsumer extends Command
             });
             $messageQueueService->close();
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
+            var_dump('Error:', $e->getMessage());
             $messageQueueService->close();
         }
     }

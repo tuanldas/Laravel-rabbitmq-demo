@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Domain\Services\MessageQueueServiceInterface;
+use App\Models\Checkin;
 use Illuminate\Console\Command;
 
 class RabbitMQConsumer extends Command
@@ -24,7 +25,14 @@ class RabbitMQConsumer extends Command
         try {
             $messageQueueService->consumer('mattermost.attendance.user_checkin', function ($msg) {
                 $data = json_decode($msg->body);
-                var_dump($data);
+                $checkin = new Checkin();
+                $checkin->user_id = $data->id;
+                $checkin->username = $data->username;
+                $checkin->create_at = date('Y-m-d H:i:s', $data->create_at);
+                $checkin->first_name = $data->first_name;
+                $checkin->last_name = $data->last_name;
+                $checkin->email = $data->email;
+                $checkin->save();
             });
             $messageQueueService->close();
         } catch (\Exception $e) {

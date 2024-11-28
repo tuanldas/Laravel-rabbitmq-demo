@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class RabbitMQConsumer extends Command
 {
-    protected $signature = 'rabbitmq:consume';
+    protected $signature = 'mm-consume:checkin';
     protected $description = 'Consume messages from RabbitMQ';
 
     public function handle(

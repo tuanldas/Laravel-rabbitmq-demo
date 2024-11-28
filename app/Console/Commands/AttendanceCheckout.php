@@ -63,7 +63,7 @@ class AttendanceCheckout extends Command
         $queueLog->save();
         $data = json_decode($msg->body);
         $checkin = new Checkout();
-        $checkin->user_id = $data->id;
+        $checkin->user_id = $data->user_id;
         $checkin->username = $data->username;
         $checkin->create_at = date('Y-m-d H:i:s', $data->create_at);
         $checkin->first_name = $data->first_name;

@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('queue_logs_tables', function (Blueprint $table) {
+        Schema::create('queue_logs', function (Blueprint $table) {
             $table->id();
             $table->string('action');
             $table->string('queue');

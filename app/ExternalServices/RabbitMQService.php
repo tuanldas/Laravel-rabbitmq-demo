@@ -12,9 +12,9 @@ class RabbitMQService implements MessageQueueServiceInterface
     /**
      * @throws \Exception
      */
-    public function connect(string $host, int $port, string $user, string $password): void
+    public function connect(string $host, int $port, string $user, string $password, string $vhost = '/'): void
     {
-        $this->rabbitMQConnection = new RabbitMQConnection($host, $port, $user, $password);
+        $this->rabbitMQConnection = new RabbitMQConnection($host, $port, $user, $password, $vhost);
     }
 
     public function consumer(string $queue, $callback): void
@@ -24,7 +24,7 @@ class RabbitMQService implements MessageQueueServiceInterface
 
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
-        $channel->basic_consume('hello', '', false, true, false, false, $callback);
+        $channel->basic_consume($queue, '', false, true, false, false, $callback);
 
         while ($channel->is_consuming()) {
             $channel->wait();

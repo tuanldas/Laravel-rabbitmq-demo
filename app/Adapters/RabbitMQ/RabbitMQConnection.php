@@ -14,9 +14,9 @@ class RabbitMQConnection
     /**
      * @throws \Exception
      */
-    public function __construct(string $host, int $port, string $user, string $password)
+    public function __construct(string $host, int $port, string $user, string $password, string $vhost = '/')
     {
-        $this->connection = new AMQPStreamConnection($host, $port, $user, $password);
+        $this->connection = new AMQPStreamConnection($host, $port, $user, $password, $vhost);
         $this->channel = $this->connection->channel();
     }
 

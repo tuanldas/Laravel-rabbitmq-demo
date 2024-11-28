@@ -7,7 +7,7 @@ use App\Models\Checkin;
 use App\Models\QueueLog;
 use Illuminate\Console\Command;
 
-class RabbitMQConsumer extends Command
+class AttendanceCheckin extends Command
 {
     protected $signature = 'mm-consume:checkin';
     protected $description = 'Consume messages from RabbitMQ';

@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id();
             $table->string('action');
             $table->string('queue');
-            $table->string('message');
+            $table->text('message');
             $table->timestamps();
         });
     }

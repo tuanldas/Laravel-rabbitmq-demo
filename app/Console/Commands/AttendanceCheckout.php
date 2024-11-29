@@ -23,35 +23,30 @@ class AttendanceCheckout extends Command
             env('RABBITMQ_PASSWORD'),
             'cg.internal1'
         );
-        try {
-            $messageQueueService->consumer('mattermost.attendance.user_checkout', function ($msg) {
-                $maxRetries = 3;
-                $retryCount = 0;
+        $messageQueueService->consumer('mattermost.attendance.user_checkout', function ($msg) {
+            var_dump(1);
+            $maxRetries = 3;
+            $retryCount = 0;
 
-                while ($retryCount < $maxRetries) {
-                    try {
-                        $this->info('Received message: ' . $msg->body);
-                        $this->handleQueue($msg);
-                        break;
-                    } catch (\Exception $e) {
-                        $retryCount++;
-                        echo " [!] Error: {$e->getMessage()}, retrying {$retryCount}/{$maxRetries}...\n";
-                        sleep(2);
-                    }
-                }
-
-                if ($retryCount >= $maxRetries) {
-                    echo " [x] Failed to process message after {$maxRetries} retries.\n";
-                    $msg->nack(false, false);
-                } else {
-                    $msg->ack();
-                }
-            });
-            $messageQueueService->close();
-        } catch (\Exception $e) {
-            var_dump(' [x] Error:', $e->getMessage());
-            $messageQueueService->close();
-        }
+//                while ($retryCount < $maxRetries) {
+//                    try {
+            $this->info('Received message: ' . $msg->body);
+            $this->handleQueue($msg);
+//                    } catch (\Exception $e) {
+//                        $retryCount++;
+//                        echo " [!] Error: {$e->getMessage()}, retrying {$retryCount}/{$maxRetries}...\n";
+//                        sleep(2);
+//                    }
+//                }
+//
+//                if ($retryCount >= $maxRetries) {
+//                    echo " [x] Failed to process message after {$maxRetries} retries.\n";
+//                    $msg->nack(false, false);
+//                } else {
+//                    $msg->ack();
+//                }
+        });
+        $messageQueueService->close();
     }
 
     private function handleQueue($msg): void
@@ -65,10 +60,17 @@ class AttendanceCheckout extends Command
         $checkin = new Checkout();
         $checkin->user_id = $data->user_id;
         $checkin->username = $data->username;
-        $checkin->create_at = date('Y-m-d H:i:s', $data->create_at);
+        $checkin->create_at = $this->convertUnixToDateTimeGetMillisecond($data->create_at);
         $checkin->first_name = $data->first_name;
         $checkin->last_name = $data->last_name;
         $checkin->email = $data->email;
         $checkin->save();
+    }
+
+    private function convertUnixToDateTimeGetMillisecond($unixTime): string
+    {
+        $timestampSeconds = floor($unixTime / 1000);
+        $milliseconds = $unixTime % 1000;
+        return date('Y-m-d H:i:s', $timestampSeconds) . '.' . sprintf('%03d', $milliseconds);
     }
 }

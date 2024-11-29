@@ -60,10 +60,17 @@ class AttendanceCheckin extends Command
         $checkin = new Checkin();
         $checkin->user_id = $data->user_id;
         $checkin->username = $data->username;
-        $checkin->create_at = date('Y-m-d H:i:s', $data->create_at);
+        $checkin->create_at = $this->convertUnixToDateTimeGetMillisecond($data->create_at);
         $checkin->first_name = $data->first_name;
         $checkin->last_name = $data->last_name;
         $checkin->email = $data->email;
         $checkin->save();
+    }
+
+    private function convertUnixToDateTimeGetMillisecond($unixTime): string
+    {
+        $timestampSeconds = floor($unixTime / 1000);
+        $milliseconds = $unixTime % 1000;
+        return date('Y-m-d H:i:s', $timestampSeconds) . '.' . sprintf('%03d', $milliseconds);
     }
 }

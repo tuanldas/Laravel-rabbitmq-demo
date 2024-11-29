@@ -28,23 +28,23 @@ class AttendanceCheckout extends Command
             $maxRetries = 3;
             $retryCount = 0;
 
-//                while ($retryCount < $maxRetries) {
-//                    try {
-            $this->info('Received message: ' . $msg->body);
-            $this->handleQueue($msg);
-//                    } catch (\Exception $e) {
-//                        $retryCount++;
-//                        echo " [!] Error: {$e->getMessage()}, retrying {$retryCount}/{$maxRetries}...\n";
-//                        sleep(2);
-//                    }
-//                }
-//
-//                if ($retryCount >= $maxRetries) {
-//                    echo " [x] Failed to process message after {$maxRetries} retries.\n";
-//                    $msg->nack(false, false);
-//                } else {
-//                    $msg->ack();
-//                }
+            while ($retryCount < $maxRetries) {
+                try {
+                    $this->info('Received message: ' . $msg->body);
+                    $this->handleQueue($msg);
+                } catch (\Exception $e) {
+                    $retryCount++;
+                    echo " [!] Error: {$e->getMessage()}, retrying {$retryCount}/{$maxRetries}...\n";
+                    sleep(2);
+                }
+            }
+
+            if ($retryCount >= $maxRetries) {
+                echo " [x] Failed to process message after {$maxRetries} retries.\n";
+                $msg->nack(false, false);
+            } else {
+                $msg->ack();
+            }
         });
         $messageQueueService->close();
     }

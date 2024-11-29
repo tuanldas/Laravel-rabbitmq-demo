@@ -10,27 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('breaking_times', function (Blueprint $table) {
+        Schema::create('accept_breaking_time', function (Blueprint $table) {
             $table->id();
+            $table->string('channel_id');
+            $table->string('team_id');
+            $table->string('ticket_id');
             $table->timestamp('create_at', 3);
-            $table->string('breaking_time_id');
             $table->string('user_id');
             $table->string('username');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
-            $table->string('reason');
-            $table->date('start_date');
-            $table->time('start_time');
-            $table->date('end_date');
-            $table->time('end_time');
-            $table->string('manager_id');
-            $table->string('manager_username');
-            $table->string('manager_email');
-            $table->string('hr_id');
-            $table->string('hr_username');
-            $table->string('hr_email');
-            $table->string('status')->default('');
             $table->timestamps();
         });
     }
@@ -40,6 +30,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('breaking_times');
+        Schema::dropIfExists('accept_breaking_time');
     }
 };

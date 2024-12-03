@@ -23,8 +23,7 @@ class AttendanceCheckout extends Command
             env('RABBITMQ_PASSWORD'),
             env('RABBITMQ_VHOST')
         );
-        $messageQueueService->consumer(env('QUEUE_CHECKOUT'), function ($msg) {
-            var_dump(1);
+        $messageQueueService->consumer(env("QUEUE_CHECKOUT"), function ($msg) {
             $maxRetries = 3;
             $retryCount = 0;
 
@@ -32,6 +31,7 @@ class AttendanceCheckout extends Command
                 try {
                     $this->info('Received message: ' . $msg->body);
                     $this->handleQueue($msg);
+                    break;
                 } catch (\Exception $e) {
                     $retryCount++;
                     echo " [!] Error: {$e->getMessage()}, retrying {$retryCount}/{$maxRetries}...\n";

@@ -20,7 +20,7 @@ class RabbitMQService implements MessageQueueServiceInterface
     public function consumer(string $queue, $callback): void
     {
         $channel = $this->rabbitMQConnection->getChannel();
-        $channel->queue_declare($queue, false, false, false, false);
+        $channel->queue_declare($queue, false, true, false, false);
 
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
 

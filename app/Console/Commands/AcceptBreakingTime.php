@@ -54,7 +54,7 @@ class AcceptBreakingTime extends Command
     {
         $queueLog = new QueueLog();
         $queueLog->action = 'consume';
-        $queueLog->queue = 'mattermost.attendance.user_accept_breaking_time';
+        $queueLog->queue = env('QUEUE_ACCEPT_BREAKING_TIME');
         $queueLog->message = $msg->body;
         $queueLog->save();
         $data = json_decode($msg->body);

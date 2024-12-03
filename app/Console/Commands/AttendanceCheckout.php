@@ -53,7 +53,7 @@ class AttendanceCheckout extends Command
     {
         $queueLog = new QueueLog();
         $queueLog->action = 'consume';
-        $queueLog->queue = 'mattermost.attendance.user_checkout';
+        $queueLog->queue = env("QUEUE_CHECKOUT");
         $queueLog->message = $msg->body;
         $queueLog->save();
         $data = json_decode($msg->body);

@@ -17,6 +17,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./:/var/www/app
+      - ./docker/supervisor.conf.d/:/etc/supervisor/conf.d
     command: [ "/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf" ]
     networks:
       - default

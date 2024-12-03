@@ -53,7 +53,7 @@ class AttendanceCheckin extends Command
     {
         $queueLog = new QueueLog();
         $queueLog->action = 'consume';
-        $queueLog->queue = 'mattermost.attendance.user_checkin';
+        $queueLog->queue = env("QUEUE_CHECKIN");
         $queueLog->message = $msg->body;
         $queueLog->save();
         $data = json_decode($msg->body);

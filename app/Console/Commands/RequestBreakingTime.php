@@ -24,7 +24,7 @@ class RequestBreakingTime extends Command
             env('RABBITMQ_PASSWORD'),
             env('RABBITMQ_VHOST')
         );
-        $messageQueueService->consumer('mattermost.attendance.user_request_breaking_time', function ($msg) {
+        $messageQueueService->consumer(env('QUEUE_REQUEST_BREAKING_TIME'), function ($msg) {
             $maxRetries = 3;
             $retryCount = 0;
 

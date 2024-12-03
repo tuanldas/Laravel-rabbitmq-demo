@@ -23,7 +23,7 @@ class AttendanceCheckout extends Command
             env('RABBITMQ_PASSWORD'),
             env('RABBITMQ_VHOST')
         );
-        $messageQueueService->consumer('mattermost.attendance.user_checkout', function ($msg) {
+        $messageQueueService->consumer(env('QUEUE_CHECKOUT'), function ($msg) {
             var_dump(1);
             $maxRetries = 3;
             $retryCount = 0;

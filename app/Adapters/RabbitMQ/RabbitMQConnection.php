@@ -5,6 +5,7 @@ namespace App\Adapters\RabbitMQ;
 use PhpAmqpLib\Channel\AbstractChannel;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQConnection
 {
@@ -30,7 +31,6 @@ class RabbitMQConnection
     {
         return $this->channel;
     }
-
     public function getConnection(): AMQPStreamConnection
     {
         return $this->connection;

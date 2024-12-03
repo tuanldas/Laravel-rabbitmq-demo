@@ -21,7 +21,7 @@ class AttendanceCheckin extends Command
             env('RABBITMQ_PORT'),
             env('RABBITMQ_USER'),
             env('RABBITMQ_PASSWORD'),
-            'cg.internal1'
+            env('RABBITMQ_VHOST')
         );
         $messageQueueService->consumer('mattermost.attendance.user_checkin', function ($msg) {
             $maxRetries = 3;
